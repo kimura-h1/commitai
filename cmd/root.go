@@ -10,9 +10,9 @@ import (
 	"github.com/atotto/clipboard"
 	"github.com/joho/godotenv"
 	"github.com/spf13/cobra"
-	"github.com/yourname/commitai/internal/git"
-	"github.com/yourname/commitai/internal/llm"
-	"github.com/yourname/commitai/internal/prompt"
+	"github.com/kimura-h1/commitai/internal/git"
+	"github.com/kimura-h1/commitai/internal/llm"
+	"github.com/kimura-h1/commitai/internal/prompt"
 )
 
 var (

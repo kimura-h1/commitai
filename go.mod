@@ -1,4 +1,4 @@
-module github.com/yourname/commitai
+module github.com/kimura-h1/commitai
 
 go 1.22
 

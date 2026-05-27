@@ -27,13 +27,13 @@ message ready to use.
 #### go install (recommended)
 
 ```bash
-go install github.com/yourname/commitai@latest
+go install github.com/kimura-h1/commitai@latest
 ```
 
 #### Build from source
 
 ```bash
-git clone https://github.com/yourname/commitai.git
+git clone https://github.com/kimura-h1/commitai.git
 cd commitai
 go build -o commitai .
 mv commitai /usr/local/bin/
@@ -147,7 +147,7 @@ go test ./...
 
 ### License
 
-MIT © 2026 yourname
+MIT © 2026 kimura-h1
 
 ---
 
@@ -176,7 +176,7 @@ OpenAI モデルに送信して [Conventional Commits](https://www.conventionalc
 Go 1.22 以降が必要です。
 
 ```bash
-go install github.com/yourname/commitai@latest
+go install github.com/kimura-h1/commitai@latest
 ```
 
 インストール後、`commitai` コマンドが使えるようになります。  
@@ -191,7 +191,7 @@ source ~/.bashrc
 #### ソースからビルド
 
 ```bash
-git clone https://github.com/yourname/commitai.git
+git clone https://github.com/kimura-h1/commitai.git
 cd commitai
 go build -o commitai .
 
@@ -332,4 +332,4 @@ go test ./...
 
 ### ライセンス
 
-MIT © 2026 yourname
+MIT © 2026 kimura-h1
