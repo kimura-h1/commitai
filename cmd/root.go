@@ -26,7 +26,7 @@ var rootCmd = &cobra.Command{
 	Use:   "commitai",
 	Short: "AI-powered Git commit message generator",
 	Long: `commitai analyzes your staged git changes and generates
-a Conventional Commits-style commit message using OpenAI.`,
+a Conventional Commits-style commit message using OpenAI or Ollama.`,
 	RunE: run,
 }
 
@@ -39,7 +39,7 @@ func Execute() {
 
 func init() {
 	rootCmd.Flags().StringVar(&lang, "lang", "en", "Language for commit message (en / ja)")
-	rootCmd.Flags().StringVar(&model, "model", "gpt-4o-mini", "OpenAI model to use")
+	rootCmd.Flags().StringVar(&model, "model", "gpt-4o-mini", `使用するモデル (例: gpt-4o-mini / ollama/llama3)`)
 	rootCmd.Flags().BoolVar(&dryRun, "dry-run", false, "Print the message without committing")
 	rootCmd.Flags().BoolVar(&doCopy, "copy", false, "Copy the generated message to clipboard")
 }
@@ -49,11 +49,14 @@ func run(cmd *cobra.Command, args []string) error {
 	_ = godotenv.Load()
 
 	apiKey := os.Getenv("OPENAI_API_KEY")
-	if apiKey == "" {
+
+	// Ollama はローカルで動くため API キー不要
+	if !strings.HasPrefix(model, "ollama/") && apiKey == "" {
 		return fmt.Errorf(
 			"❌ OPENAI_API_KEY が設定されていません。\n" +
 				"  .env ファイルに OPENAI_API_KEY=sk-... を記述するか、\n" +
-				"  環境変数として export OPENAI_API_KEY=sk-... を実行してください。",
+				"  環境変数として export OPENAI_API_KEY=sk-... を実行してください。\n" +
+				"  💡 APIキー不要で使うには: --model ollama/llama3",
 		)
 	}
 
@@ -78,6 +81,10 @@ func run(cmd *cobra.Command, args []string) error {
 	client := llm.NewClient(apiKey, model)
 	message, err := client.Generate(context.Background(), systemPrompt, userPrompt)
 	if err != nil {
+		if strings.HasPrefix(model, "ollama/") {
+			// Ollama 固有のエラーはそのまま表示（client.go で案内済み）
+			return fmt.Errorf("API の呼び出しに失敗しました: %w", err)
+		}
 		return fmt.Errorf(
 			"API の呼び出しに失敗しました: %w\n"+
 				"  ネットワーク接続と API キーを確認してから再実行してください。",
